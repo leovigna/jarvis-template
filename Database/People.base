@@ -1,0 +1,81 @@
+filters:
+  and:
+    - file.inFolder("Database/People")
+    - type == "person"
+formulas:
+  full_contact: 'email || linkedin || twitter ? "✓" : "✗"'
+  interaction_count: file.backlinks.length
+  days_since_last_contact: 'last_contact ? (today() - last_contact).format("days") : ""'
+properties:
+  file.name:
+    displayName: Name
+  company:
+    displayName: Company
+  role:
+    displayName: Role
+  email:
+    displayName: Email
+  linkedin:
+    displayName: LinkedIn
+  twitter:
+    displayName: Twitter
+  location:
+    displayName: Location
+  tags:
+    displayName: Tags
+  relationship:
+    displayName: Relationship
+  last_contact:
+    displayName: Last Contact
+  next_action:
+    displayName: Next Action
+  formula.full_contact:
+    displayName: Contact Info
+  notes:
+    displayName: Notes
+views:
+  - type: table
+    name: All People
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Company
+    groupBy:
+      property: company
+      direction: ASC
+    order:
+      - role
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Relationship
+    groupBy:
+      property: relationship
+      direction: ASC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: Recent Contacts
+    filters:
+      and:
+        - last_contact
+    order:
+      - last_contact
+    limit: 20
+  - type: table
+    name: Need Follow-up
+    filters:
+      and:
+        - next_action
+    order:
+      - last_contact
+  - type: cards
+    name: People Cards
+    groupBy:
+      property: company
+      direction: ASC

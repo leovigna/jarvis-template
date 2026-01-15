@@ -1,0 +1,114 @@
+filters:
+  and:
+    - file.inFolder("Database/Meetings")
+    - type == "meeting"
+
+formulas:
+  days_until_meeting: 'meeting_date ? (meeting_date - today()).format("days") : ""'
+  is_upcoming: 'meeting_date && meeting_date >= today()'
+  is_past: 'meeting_date && meeting_date < today()'
+  attendee_count: 'attendees ? attendees.length : 0'
+
+properties:
+  file.name:
+    displayName: Meeting
+  meeting_date:
+    displayName: Date
+  meeting_type:
+    displayName: Type
+  attendees:
+    displayName: Attendees
+  organizer:
+    displayName: Organizer
+  project:
+    displayName: Project
+  company:
+    displayName: Company
+  status:
+    displayName: Status
+  duration:
+    displayName: Duration
+  location:
+    displayName: Location
+  formula.attendee_count:
+    displayName: "# Attendees"
+  formula.days_until_meeting:
+    displayName: Days Until
+  recording:
+    displayName: Recording
+  notes:
+    displayName: Notes
+
+views:
+  - type: table
+    name: Upcoming Meetings
+    filters:
+      and:
+        - formula.is_upcoming
+    order:
+      - meeting_date
+    summaries:
+      file.name: Count
+
+  - type: table
+    name: Past Meetings
+    filters:
+      and:
+        - formula.is_past
+    order:
+      - meeting_date
+    limit: 30
+    summaries:
+      file.name: Count
+
+  - type: table
+    name: By Type
+    groupBy:
+      property: meeting_type
+      direction: ASC
+    order:
+      - meeting_date
+    summaries:
+      file.name: Count
+
+  - type: table
+    name: By Project
+    filters:
+      and:
+        - project
+    groupBy:
+      property: project
+      direction: ASC
+    order:
+      - meeting_date
+    summaries:
+      file.name: Count
+
+  - type: table
+    name: By Company
+    filters:
+      and:
+        - company
+    groupBy:
+      property: company
+      direction: ASC
+    order:
+      - meeting_date
+    summaries:
+      file.name: Count
+
+  - type: table
+    name: My Meetings
+    filters:
+      and:
+        - attendees.contains(link("Database/People/Me"))
+    order:
+      - meeting_date
+    limit: 20
+
+  - type: table
+    name: All Meetings
+    order:
+      - meeting_date
+    summaries:
+      file.name: Count

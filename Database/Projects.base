@@ -1,0 +1,99 @@
+filters:
+  and:
+    - file.inFolder("Database/Projects")
+    - type == "project"
+formulas:
+  task_count: file.backlinks.filter(x => x.type == "task").length
+  active_task_count: file.backlinks.filter(x => x.type == "task" && x.status == "active").length
+  completion_rate: 'total_tasks > 0 ? ((completed_tasks / total_tasks) * 100).toFixed(0) + "%" : "N/A"'
+  is_overdue: target_date && target_date < today() && status != "completed"
+  days_until_target: 'target_date ? (target_date - today()).format("days") : ""'
+properties:
+  file.name:
+    displayName: Project
+  status:
+    displayName: Status
+  priority:
+    displayName: Priority
+  lead:
+    displayName: Lead
+  team:
+    displayName: Team
+  start_date:
+    displayName: Start Date
+  target_date:
+    displayName: Target Date
+  budget:
+    displayName: Budget
+  total_tasks:
+    displayName: Total Tasks
+  completed_tasks:
+    displayName: Completed
+  formula.completion_rate:
+    displayName: Completion
+  formula.days_until_target:
+    displayName: Days to Target
+  description:
+    displayName: Description
+views:
+  - type: table
+    name: Active Projects
+    filters:
+      and:
+        - status == "active"
+    groupBy:
+      property: priority
+      direction: DESC
+    order:
+      - priority
+      - target_date
+    summaries:
+      file.name: Count
+  - type: table
+    name: Projects by Lead
+    filters:
+      and:
+        - status != "completed"
+        - status != "archived"
+    groupBy:
+      property: lead
+      direction: ASC
+    order:
+      - priority
+      - target_date
+    summaries:
+      file.name: Count
+  - type: table
+    name: Projects by Status
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - priority
+      - target_date
+    summaries:
+      file.name: Count
+  - type: table
+    name: Overdue Projects
+    filters:
+      and:
+        - formula.is_overdue
+    order:
+      - target_date
+    summaries:
+      file.name: Count
+  - type: cards
+    name: Project Board
+    filters:
+      and:
+        - status != "completed"
+        - status != "archived"
+    groupBy:
+      property: status
+      direction: ASC
+  - type: table
+    name: All Projects
+    order:
+      - status
+      - priority
+      - target_date

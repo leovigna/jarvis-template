@@ -1,0 +1,77 @@
+---
+filters:
+  and:
+    - file.inFolder("Database/Memories")
+    - type == "memory"
+views:
+  - type: table
+    name: All Memories
+    columns:
+      - file.name
+      - memory_type
+      - created
+      - updated
+      - topic
+      - security_level
+    sortBy: created
+    sortOrder: desc
+
+  - type: table
+    name: Daily Memories
+    filters:
+      and:
+        - memory_type == "daily"
+    columns:
+      - file.name
+      - created
+      - session_type
+      - tags
+    sortBy: created
+    sortOrder: desc
+
+  - type: table
+    name: Long-Term Memories
+    filters:
+      and:
+        - memory_type == "longterm"
+    columns:
+      - file.name
+      - updated
+      - security_level
+
+  - type: table
+    name: Topical Memories
+    filters:
+      and:
+        - memory_type == "topical"
+    columns:
+      - file.name
+      - topic
+      - updated
+      - related_project
+      - security_level
+    sortBy: updated
+    sortOrder: desc
+
+  - type: table
+    name: Recent Memories (30 days)
+    filters:
+      and:
+        - created >= date(today) - dur(30 days)
+    columns:
+      - file.name
+      - memory_type
+      - created
+      - topic
+    sortBy: created
+    sortOrder: desc
+
+  - type: card
+    name: Memory Cards
+    columns:
+      - file.name
+      - memory_type
+      - created
+      - topic
+    groupBy: memory_type
+---

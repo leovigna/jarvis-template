@@ -1,0 +1,84 @@
+filters:
+  and:
+    - file.inFolder("Database/Bookmarks")
+    - type == "bookmark"
+formulas:
+  domain: 'url ? url.split("/")[2] : ""'
+  is_saved: 'saved ? "✓" : "✗"'
+  days_since_added: (today() - file.ctime).format("days")
+properties:
+  file.name:
+    displayName: Title
+  url:
+    displayName: URL
+  category:
+    displayName: Category
+  tags:
+    displayName: Tags
+  description:
+    displayName: Description
+  saved:
+    displayName: Saved
+  rating:
+    displayName: Rating
+  created:
+    displayName: Added
+  last_accessed:
+    displayName: Last Accessed
+  formula.domain:
+    displayName: Domain
+  notes:
+    displayName: Notes
+views:
+  - type: table
+    name: All Bookmarks
+    order:
+      - file.ctime
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Category
+    groupBy:
+      property: category
+      direction: ASC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Rating
+    filters:
+      and:
+        - rating
+    groupBy:
+      property: rating
+      direction: DESC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: To Read
+    filters:
+      and:
+        - saved == false
+    order:
+      - file.ctime
+  - type: table
+    name: Recently Added
+    order:
+      - file.ctime
+    limit: 30
+  - type: table
+    name: Recently Accessed
+    filters:
+      and:
+        - last_accessed
+    order:
+      - last_accessed
+    limit: 20
+  - type: cards
+    name: Bookmark Cards
+    groupBy:
+      property: category
+      direction: ASC

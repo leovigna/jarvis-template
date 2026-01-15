@@ -1,0 +1,130 @@
+filters:
+  and:
+    - file.inFolder("Database/Tasks")
+    - type == "task"
+formulas:
+  is_overdue: due && due < today() && status == "active"
+  days_until_due: 'due ? (due - today()).format("days") : ""'
+  status_emoji: 'status == "done" ? "✅" : status == "active" ? "🔄" : status == "blocked" ? "🚫" : "📋"'
+  has_blockers: blocked_by && blocked_by.length > 0
+properties:
+  file.name:
+    displayName: Task
+  assignee:
+    displayName: Assigned
+  priority:
+    displayName: Priority
+  due:
+    displayName: Due Date
+  project:
+    displayName: Project
+  status:
+    displayName: Status
+  blocked_by:
+    displayName: Blocked By
+  formula.days_until_due:
+    displayName: Days Until Due
+  formula.has_blockers:
+    displayName: Has Dependencies
+views:
+  - type: table
+    name: Active Tasks by Priority
+    filters:
+      and:
+        - status == "active"
+    groupBy:
+      property: priority
+      direction: DESC
+    order:
+      - priority
+      - due
+    summaries:
+      file.name: Count
+    columnSize:
+      note.priority: 125
+  - type: table
+    name: My Active Tasks
+    filters:
+      and:
+        - status != "done"
+    order:
+      - priority
+      - due
+    summaries:
+      file.name: Count
+  - type: table
+    name: Tasks by Project
+    filters:
+      and:
+        - status == "active"
+    groupBy:
+      property: project
+      direction: ASC
+    summaries:
+      file.name: Count
+  - type: table
+    name: Blocked Tasks
+    filters:
+      and:
+        - status == "blocked"
+    order:
+      - file.name
+  - type: table
+    name: Tasks with Dependencies
+    filters:
+      and:
+        - formula.has_blockers
+        - status != "done"
+    order:
+      - priority
+      - due
+    summaries:
+      file.name: Count
+  - type: table
+    name: Overdue Tasks
+    filters:
+      and:
+        - status == "active"
+        - formula.is_overdue
+    order:
+      - due
+    summaries:
+      file.name: Count
+  - type: table
+    name: Backlog
+    filters:
+      and:
+        - status == "backlog"
+    groupBy:
+      property: project
+      direction: ASC
+    order:
+      - priority
+      - project
+    summaries:
+      file.name: Count
+  - type: table
+    name: Recently Completed
+    filters:
+      and:
+        - status == "done"
+    order:
+      - file.mtime
+    limit: 20
+  - type: cards
+    name: Active Tasks (Kanban)
+    filters:
+      and:
+        - status != "done"
+    groupBy:
+      property: status
+      direction: ASC
+  - type: table
+    name: All Tasks
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - status
+      - priority
+      - due

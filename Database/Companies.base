@@ -1,0 +1,91 @@
+filters:
+  and:
+    - file.inFolder("Database/Companies")
+    - type == "company"
+formulas:
+  people_count: file.backlinks.filter(x => x.type == "person").length
+  has_website: 'website ? "✓" : "✗"'
+  contact_status: 'people_count > 0 ? people_count + " contacts" : "No contacts"'
+properties:
+  file.name:
+    displayName: Company
+  industry:
+    displayName: Industry
+  stage:
+    displayName: Stage
+  size:
+    displayName: Size
+  location:
+    displayName: Location
+  website:
+    displayName: Website
+  linkedin:
+    displayName: LinkedIn
+  twitter:
+    displayName: Twitter
+  relationship:
+    displayName: Relationship
+  tags:
+    displayName: Tags
+  last_interaction:
+    displayName: Last Interaction
+  next_action:
+    displayName: Next Action
+  formula.people_count:
+    displayName: Contacts
+  notes:
+    displayName: Notes
+views:
+  - type: table
+    name: All Companies
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Industry
+    groupBy:
+      property: industry
+      direction: ASC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Relationship
+    groupBy:
+      property: relationship
+      direction: ASC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: By Stage
+    groupBy:
+      property: stage
+      direction: ASC
+    order:
+      - file.name
+    summaries:
+      file.name: Count
+  - type: table
+    name: Recent Interactions
+    filters:
+      and:
+        - last_interaction
+    order:
+      - last_interaction
+    limit: 20
+  - type: table
+    name: Need Follow-up
+    filters:
+      and:
+        - next_action
+    order:
+      - last_interaction
+  - type: cards
+    name: Company Cards
+    groupBy:
+      property: industry
+      direction: ASC
