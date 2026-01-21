@@ -4,8 +4,7 @@ Custom slash commands for Jarvis. Each skill teaches the AI how to perform a spe
 
 ## What's Here
 
-- **daily-brief**: `/daily-brief` - Generate a daily briefing from tasks and meetings
-- **research-person**: `/research-person` - Research a person online and update Database/People
+- **crm**: `/crm` - Research people and companies, add to CRM database with smart linking
 
 ## How Skills Work
 
