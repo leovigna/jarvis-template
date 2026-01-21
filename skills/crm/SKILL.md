@@ -267,10 +267,12 @@ Additional context, competitive intel, etc.
 
 ## Response Format
 
+**IMPORTANT**: Never mention file paths (Database/People/, Database/Companies/) or file extensions (.md) in responses. Only mention entity names (person names, company names).
+
 ### New Person Entry:
 ```
 ✅ Research completed for [Person Name]
-📍 New profile: Database/People/[Filename].md
+📍 Person profile created
 
 Key Info:
 • Role: [Job Title] at [Company]
@@ -280,14 +282,14 @@ Key Info:
 
 [2-3 sentence summary of background]
 
-Company: [Created/Linked to existing] Database/Companies/[Company].md
+Company: [Created/Linked to existing] [Company Name]
 Sources: [N] reviewed
 ```
 
 ### New Company Entry:
 ```
 ✅ Research completed for [Company Name]
-📍 New profile: Database/Companies/[Filename].md
+📍 Company profile created
 
 Key Info:
 • Industry: [Industry]
@@ -303,7 +305,7 @@ Sources: [N] reviewed
 ### Updated Entry:
 ```
 ✅ Research completed for [Person/Company Name]
-📍 Updated: Database/[People|Companies]/[Filename].md
+📍 [Person/Company] profile updated
 
 Updates:
 • [What changed]
@@ -314,13 +316,15 @@ Sources: [N] reviewed
 
 ### With Related Entities Added:
 ```
-✅ Research completed for [Primary Entity]
-📍 Primary: Database/[People|Companies]/[Filename].md
-📍 Related: Added [N] [people/companies]
-  - Database/People/[Name].md
-  - Database/People/[Name].md
+✅ Added [N] people from [Company Name]
 
-Sources: [N] reviewed
+📍 [Person Name]
+→ [Role] | [Key background points]
+
+📍 [Person Name]
+→ [Role] | [Key background points]
+
+All linked to [Company Name].
 ```
 
 ## User Interaction Examples
@@ -335,8 +339,8 @@ Would you like me to create a company entry for Anthropic?
 User: yes
 Assistant: [Creates both entries, links them]
 ✅ Research completed for John Doe
-📍 New profile: Database/People/John-Doe.md
-📍 New company: Database/Companies/Anthropic.md
+📍 Person profile created
+📍 Company profile created: Anthropic
 ```
 
 ### Example 2: Company with People Discovery
@@ -354,11 +358,15 @@ Found the following key people at Anthropic:
 Which of these people should I add to the database? (You can select multiple or say "all")
 User: 1 and 2
 Assistant: [Creates entries for Dario and Daniela]
-✅ Research completed for Anthropic
-📍 Company: Database/Companies/Anthropic.md
-📍 Added 2 people:
-  - Database/People/Dario-Amodei.md
-  - Database/People/Daniela-Amodei.md
+✅ Added 2 people from Anthropic
+
+📍 Dario Amodei
+→ CEO & Co-founder
+
+📍 Daniela Amodei
+→ President & Co-founder
+
+All linked to Anthropic.
 ```
 
 ### Example 3: Person with Coworkers Discovery
@@ -377,7 +385,7 @@ Which coworkers should I add? (You can select multiple or say "all")
 User: skip
 Assistant: [Creates only Jane's entry]
 ✅ Research completed for Jane Smith
-📍 New profile: Database/People/Jane-Smith.md
+📍 Person profile created
 ```
 
 ## Best Practices
