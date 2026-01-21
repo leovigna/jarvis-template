@@ -1,11 +1,12 @@
 {
     "mcpServers": {
       "firecrawl": {
-        "description": "Firecrawl hosted MCP for authenticated scraping and extraction.",
         "baseUrl": "https://mcp.firecrawl.dev/v2/mcp",
+        "description": "Firecrawl hosted MCP for scraping and extraction",
         "headers": {
           "Authorization": "Bearer ${FIRECRAWL_API_KEY}"
         }
       }
-    }
+    },
+    "imports": []
   }
