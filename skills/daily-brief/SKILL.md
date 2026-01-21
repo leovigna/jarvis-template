@@ -1,7 +1,6 @@
 ---
 name: daily-brief
 description: Generate a daily briefing from tasks and notes
-user-invocable: true
 ---
 
 # Daily Brief Skill

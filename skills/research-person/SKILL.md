@@ -1,7 +1,7 @@
 ---
 name: research-person
 description: Research a person online and update Database/People
-user-invocable: true
+
 ---
 
 # Research Person Skill
