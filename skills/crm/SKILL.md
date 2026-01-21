@@ -5,7 +5,9 @@ description: Research people and companies, add to CRM database with smart linki
 
 # CRM Skill
 
-When invoked with `/crm [query]`, research and add people or companies to the Database with intelligent linking and relationship discovery.
+**Telegram Skill** - Invoke with `/crm` (no parameters)
+
+This is a Telegram skill. When invoked with `/crm`, the skill will prompt you for the query to research and add people or companies to the Database with intelligent linking and relationship discovery.
 
 ## Input Detection
 
@@ -331,7 +333,9 @@ All linked to [Company Name].
 
 ### Example 1: Email Input with Company Creation
 ```
-User: /crm john@anthropic.com
+User: /crm
+Assistant: Please provide the person or company you'd like to research.
+User: john@anthropic.com
 Assistant: [Searches for John and Anthropic]
 Assistant: Found John Doe, VP of Engineering at Anthropic.
 Anthropic doesn't exist in the database yet.
@@ -345,7 +349,9 @@ Assistant: [Creates both entries, links them]
 
 ### Example 2: Company with People Discovery
 ```
-User: /crm Anthropic
+User: /crm
+Assistant: Please provide the person or company you'd like to research.
+User: Anthropic
 Assistant: [Researches Anthropic]
 Would you like me to research key people at Anthropic (founders, executives)?
 User: yes
@@ -371,7 +377,9 @@ All linked to Anthropic.
 
 ### Example 3: Person with Coworkers Discovery
 ```
-User: /crm Jane Smith at Example Corp
+User: /crm
+Assistant: Please provide the person or company you'd like to research.
+User: Jane Smith at Example Corp
 Assistant: [Researches Jane Smith]
 Would you like me to search for Jane's coworkers at Example Corp?
 User: yes

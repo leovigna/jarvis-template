@@ -83,6 +83,28 @@ command-tool: search
 ---
 ```
 
+## Telegram Command Architecture
+
+**Important**: Telegram bots don't support inline parameters (like `/crm john@example.com`). Instead, they use a conversational flow:
+
+1. User invokes the command: `/skill-name`
+2. Skill prompts for input: "Please provide..."
+3. User responds with the required information
+
+This creates a more natural chat-based interaction pattern. When writing skills, always design them to:
+- Accept the command without parameters
+- Prompt for necessary input after invocation
+- Handle multi-turn conversations to gather required data
+
+Example:
+```
+User: /remind-me
+Assistant: What would you like to be reminded about?
+User: Call Sarah tomorrow
+Assistant: When should I remind you?
+User: 2pm
+```
+
 ## Best Practices
 
 1. **Keep it focused**: One clear purpose per skill
@@ -90,6 +112,7 @@ command-tool: search
 3. **Use examples**: Show the expected format in the instructions
 4. **Match the vibe**: Keep Jarvis professional and efficient
 5. **Test first**: Try it locally before committing
+6. **No inline parameters**: Design for conversational input flow (see Telegram Command Architecture above)
 
 ## More Info
 
