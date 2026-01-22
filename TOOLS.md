@@ -38,4 +38,15 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 ---
 
+## Current Configuration
+
+### TTS Voice (voice-reply skill)
+- Preferred voice: "echo" (warm, conversational)
+- Speed: 1.2 (slightly faster than normal)
+- Model: gpt-4o-mini-tts (fast, cost-effective)
+
+Available voice options: alloy, echo, fable, onyx, nova, shimmer
+
+---
+
 Add whatever helps you do your job. This is your cheat sheet.
